@@ -1,0 +1,12 @@
+{
+  "name": "automation-exercise",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "cypress run",
+    "cy:open": "cypress open"
+  },
+  "devDependencies": {
+    "cypress": "^16.2.1"
+  }
+}
