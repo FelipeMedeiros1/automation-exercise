@@ -1,0 +1,52 @@
+
+name: Cypress E2E Tests
+
+on:
+  push:
+    branches: [main]
+
+  pull_request:
+    branches: [main]
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cypress-tests:
+    name: Executar testes Cypress
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+
+    steps:
+      # Baixa o codigo do repositorio
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Configura o Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      # Instala dependencias e executa Cypress
+      - name: Run Cypress tests
+        uses: cypress-io/github-action@v7
+        with:
+          browser: chrome
+          install-command: npm ci
+
+      # Armazena screenshots, videos e relatorios
+      - name: Upload test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-evidence
+          path: |
+            cypress/screenshots/
+            cypress/videos/
+            cypress/reports/
+          if-no-files-found: ignore
+          retention-days: 14
