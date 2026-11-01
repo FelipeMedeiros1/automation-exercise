@@ -13,6 +13,7 @@ module.exports = defineConfig({
     saveAllAttempts: true,
   },
   e2e: {
+    experimentalRunAllSpecs: true,
     baseUrl: 'https://www.automationexercise.com',
     specPattern: 'cypress/e2e/**/*.js',
     supportFile: 'cypress/support/e2e.js',
