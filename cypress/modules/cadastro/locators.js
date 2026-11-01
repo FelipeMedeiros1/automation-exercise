@@ -25,4 +25,5 @@ export const cadastro = {
   contaCriada: '[data-qa="account-created"]',
   inicio: ['h2', 'New User Signup!'],
   formulario: 'Enter Account Information',
+  erroEmailExistente: ['.signup-form p', 'Email Address already exist!'],
 };

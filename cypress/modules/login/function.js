@@ -39,10 +39,14 @@ export function fazerLogin({ email, password }) {
   return cy.get(login.entrar).click();
 }
 
-export function executarLoginValido() {
+export function autenticarUsuarioPreparado() {
   abrirLogin();
   fazerLogin(usuarioLogin);
-  validarUsuarioConectado(usuarioLogin.name);
+  return validarUsuarioConectado(usuarioLogin.name);
+}
+
+export function executarLoginValido() {
+  autenticarUsuarioPreparado();
   return excluirConta().then(() => { contaCriada = false; });
 }
 

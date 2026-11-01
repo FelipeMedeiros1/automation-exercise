@@ -22,3 +22,9 @@ export function validarContaCriada() {
   return cy.get(cadastro.contaCriada).should('be.visible')
     .and('contain.text', 'Account Created!');
 }
+
+export function validarEmailExistente() {
+  cy.contains(...cadastro.erroEmailExistente).should('be.visible');
+  cy.location('pathname').should('eq', '/signup');
+  return cy.get(cadastro.criarConta).should('not.exist');
+}

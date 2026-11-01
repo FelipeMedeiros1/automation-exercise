@@ -3,10 +3,19 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "test": "cypress run",
-    "cy:open": "cypress open"
+    "test": "cypress run --browser chrome",
+    "cy:open": "cypress open",
+    "lint": "eslint .",
+    "validate": "npm run lint && npm test"
   },
   "devDependencies": {
-    "cypress": "^16.2.1"
+    "@eslint/js": "^10.0.1",
+    "cypress": "^16.2.1",
+    "cypress-mochawesome-reporter": "^5.0.0",
+    "eslint": "^10.14.0",
+    "globals": "^17.13.0"
+  },
+  "engines": {
+    "node": ">=24 <25"
   }
 }

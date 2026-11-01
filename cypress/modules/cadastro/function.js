@@ -1,9 +1,15 @@
+import { criarConta } from '../../requests/accounts';
+import { limparConta } from '../conta/function';
+
+let usuarioExistente;
+let contaExistenteCriada = false;
+
 import { cadastro } from './locators';
 import { criarUsuario } from '../../utils/user';
 import { abrirSistema, abrirAutenticacao, continuar } from '../../common/navigation';
 import { validarInicioCadastro, validarFormularioCadastro, validarDadosConta,
-  validarPreferencias, validarContaCriada } from '../../asserts/cadastro';
-import { validarUsuarioConectado } from '../../asserts/conta';
+  validarPreferencias, validarContaCriada, validarEmailExistente } from '../../asserts/cadastro';
+import { validarUsuarioConectado, validarCriacaoPelaApi } from '../../asserts/conta';
 
 export function iniciarCadastro({ name, email }) {
   cy.get(cadastro.nomeInicial).type(name);
@@ -47,8 +53,7 @@ export function confirmacaoDeCadastro() {
   return cy.get(cadastro.contaCriada);
 }
 
-export function cadastrarUsuario() {
-  const usuario = criarUsuario();
+export function cadastrarUsuario(usuario = criarUsuario()) {
   abrirSistema();
   abrirAutenticacao();
   validarInicioCadastro();
@@ -61,4 +66,29 @@ export function cadastrarUsuario() {
   validarContaCriada();
   continuar();
   return validarUsuarioConectado(usuario.name);
+}
+
+export function prepararCadastroExistente() {
+  usuarioExistente = criarUsuario({ name: 'QA Cadastro Existente' });
+  contaExistenteCriada = false;
+  return criarConta(usuarioExistente).then((body) => {
+    contaExistenteCriada = body.responseCode === 201;
+    validarCriacaoPelaApi(body);
+  });
+}
+
+export function limparCadastroExistente() {
+  if (contaExistenteCriada) {
+    return limparConta(usuarioExistente).then(() => {
+      contaExistenteCriada = false;
+    });
+  }
+}
+
+export function cadastrarComEmailExistente() {
+  abrirSistema();
+  abrirAutenticacao();
+  validarInicioCadastro();
+  iniciarCadastro(usuarioExistente);
+  return validarEmailExistente();
 }
