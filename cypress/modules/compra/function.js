@@ -42,11 +42,12 @@ export function adicionarProdutoAoCarrinho() {
 }
 
 export function concluirCompra() {
+  const pagamento = criarPagamento();
+
   cy.contains(...compra.checkout).click();
   cy.then(() => validarCheckout(usuarioCompra, produtoCompra));
   cy.get(compra.comentario).type('Pedido ficticio para teste de compra.');
   cy.get(compra.fazerPedido).click();
-  const pagamento = criarPagamento();
   cy.get(compra.nomeCartao).type(pagamento.nome);
   cy.get(compra.numeroCartao).type(pagamento.numero, { log: false });
   cy.get(compra.cvc).type(pagamento.cvc, { log: false });
