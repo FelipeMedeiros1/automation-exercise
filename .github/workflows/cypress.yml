@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   cypress-tests:
-    name: Validar os 10 casos no Chrome
+    name: Testes Automatizados
     runs-on: ubuntu-24.04
     timeout-minutes: 30
 
